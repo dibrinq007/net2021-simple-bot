@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver; 
+
 
 namespace SimpleBotCore
 {
@@ -27,6 +29,13 @@ namespace SimpleBotCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            string connectionString = "mongodb://localhost:27017";     
+            var cliente = new MongoClient(connectionString);
+            var perguntasRepository = new PerguntasMongoRepository(cliente);
+            services.AddSingleton<IPerguntasRepository>(perguntasRepository);
+
+
             services.AddSingleton<IUserProfileRepository>(new UserProfileMockRepository());
             services.AddSingleton<IBotDialogHub, BotDialogHub>();
             services.AddSingleton<BotDialog, SimpleBot>();

@@ -5,20 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace SimpleBotCore.Logic
 {
     public class SimpleBot : BotDialog
     {
         IUserProfileRepository _userProfile;
-
-        public SimpleBot(IUserProfileRepository userProfile)
+        IPerguntasRepository _perguntas;
+        public SimpleBot(IUserProfileRepository userProfile, IPerguntasRepository perguntasRepository)
         {
             _userProfile = userProfile;
+            _perguntas = perguntasRepository; 
         }
 
         protected async override Task BotConversation()
         {
             SimpleUser user = _userProfile.TryLoadUser(UserId);
+
 
             // Create a user if it is null
             if (user == null)
@@ -73,8 +76,10 @@ namespace SimpleBotCore.Logic
                 {
                     await WriteAsync("Processando...");
 
+
                     // FAZER: GRAVAR AS PERGUNTAS EM UM BANCO DE DADOS
-                    await Task.Delay(5000);
+                    // MONGODB
+                    _perguntas.GravarPerguntas(user.Nome, texto);                    
 
                     await WriteAsync("Resposta não encontrada");
                 }
