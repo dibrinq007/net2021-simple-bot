@@ -11,9 +11,8 @@ namespace SimpleBotCore.Repositories
     {
         MongoClient _cliente;
         IMongoCollection<BsonDocument> _perguntas;
-        public PerguntasMongoRepository( MongoClient cliente)
+        public PerguntasMongoRepository(MongoClient cliente)
         {       
-
             _cliente = cliente;
             var db = cliente.GetDatabase("dbPerguntas");
             var collection = db.GetCollection<BsonDocument>("Perguntas");

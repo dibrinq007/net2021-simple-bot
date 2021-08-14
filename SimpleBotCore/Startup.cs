@@ -30,13 +30,17 @@ namespace SimpleBotCore
         public void ConfigureServices(IServiceCollection services)
         {
 
+            //Perguntas
             string connectionString = "mongodb://localhost:27017";     
             var cliente = new MongoClient(connectionString);
             var perguntasRepository = new PerguntasMongoRepository(cliente);
             services.AddSingleton<IPerguntasRepository>(perguntasRepository);
 
+            //Respostas do perfil
+            var respostasPerfilRepository = new UserProfileMongoRepository(cliente);
+            services.AddSingleton<IUserProfileRepository>(respostasPerfilRepository);
 
-            services.AddSingleton<IUserProfileRepository>(new UserProfileMockRepository());
+            //services.AddSingleton<IUserProfileRepository>(new UserProfileMockRepository());
             services.AddSingleton<IBotDialogHub, BotDialogHub>();
             services.AddSingleton<BotDialog, SimpleBot>();
 
